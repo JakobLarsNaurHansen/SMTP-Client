@@ -121,6 +121,7 @@ public class MailClient extends Frame {
                 return;
             }
             try {
+                Envelope envelope = new Envelope(mailMessage, serverField.getText());
                 SMTPConnection connection = new SMTPConnection(envelope);
                 connection.send(envelope);
                 connection.close();
