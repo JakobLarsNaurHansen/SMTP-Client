@@ -33,7 +33,7 @@ public class SMTPConnection {
         }
 
         String localhost = InetAddress.getLocalHost().getHostName();
-        sendCommand("EHLO " + localhost, 250);
+        sendCommand("HELO " + localhost, 250);
 
         isConnected = true;
     }

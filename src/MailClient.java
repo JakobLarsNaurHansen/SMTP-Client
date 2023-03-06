@@ -3,13 +3,6 @@ import java.net.*;
 import java.awt.*;
 import java.awt.event.*;
 
-/* $Id: MailClient.java,v 1.7 1999/07/22 12:07:30 kangasha Exp $ */
-
-/**
- * A simple mail client with a GUI for sending mail.
- *
- * @author Jussi Kangasharju
- */
 public class MailClient extends Frame {
     /* The stuff for the GUI. */
     private Button btSend = new Button("Send");
