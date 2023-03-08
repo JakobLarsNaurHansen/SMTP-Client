@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5ae24b35-b5f7-4776-99c5-e769d09b98c2" name="Changes" comment="Nu kan man sende en mail fra info@comit.dev til sig selv ihvertfald">
+    <list default="true" id="5ae24b35-b5f7-4776-99c5-e769d09b98c2" name="Changes" comment="jeg kan ikke huske hvad det her er">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -78,7 +78,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678108407528</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="jeg kan ikke huske hvad det her er">
+      <created>1678109288438</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1678109288438</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -96,17 +103,7 @@
     <MESSAGE value="initialcommit" />
     <MESSAGE value="Virker det nu?" />
     <MESSAGE value="Nu kan man sende en mail fra info@comit.dev til sig selv ihvertfald" />
-    <option name="LAST_COMMIT_MESSAGE" value="Nu kan man sende en mail fra info@comit.dev til sig selv ihvertfald" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/MailClient.java</url>
-          <line>118</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="jeg kan ikke huske hvad det her er" />
+    <option name="LAST_COMMIT_MESSAGE" value="jeg kan ikke huske hvad det her er" />
   </component>
 </project>
