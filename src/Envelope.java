@@ -10,7 +10,7 @@ import java.util.*;
  * @author Jussi Kangasharju
  */
 public class Envelope {
-    /* SMTP-sender of the message (in this case, contents of From-header. */
+    /* SMTP-sender of the message (in this case, contents of From-header). */
     public String Sender;
 
     /* SMTP-recipient, or contents of To-header. */
@@ -34,8 +34,7 @@ public class Envelope {
 	   sending the mail. */
         Message = escapeMessage(message);
 
-        /* Take the name of the local mailserver and map it into an
-         * InetAddress */
+        /* Take the name of the local mailserver and map it into an InetAddress */
         DestHost = localServer;
         try {
             DestAddr = InetAddress.getByName(DestHost);

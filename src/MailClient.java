@@ -1,8 +1,10 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.net.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.nio.file.Path;
 
 public class MailClient extends Frame {
     /* The stuff for the GUI. */
@@ -38,23 +40,23 @@ public class MailClient extends Frame {
         Panel subjectPanel = new Panel(new BorderLayout());
         Panel messagePanel = new Panel(new BorderLayout());
         Panel imagePanel = new Panel(new BorderLayout());
-        serverPanel.add(serverLabel, BorderLayout.WEST);
-        serverPanel.add(serverField, BorderLayout.CENTER);
-        fromPanel.add(fromLabel, BorderLayout.WEST);
-        fromPanel.add(fromField, BorderLayout.CENTER);
-        toPanel.add(toLabel, BorderLayout.WEST);
-        toPanel.add(toField, BorderLayout.CENTER);
-        subjectPanel.add(subjectLabel, BorderLayout.WEST);
-        subjectPanel.add(subjectField, BorderLayout.CENTER);
+        imagePanel.add(choosenImageLabel, BorderLayout.CENTER);
+        serverPanel.add(serverLabel, BorderLayout.NORTH);
+        serverPanel.add(serverField, BorderLayout.SOUTH);
+        fromPanel.add(fromLabel, BorderLayout.NORTH);
+        fromPanel.add(fromField, BorderLayout.SOUTH);
+        toPanel.add(toLabel, BorderLayout.NORTH);
+        toPanel.add(toField, BorderLayout.SOUTH);
+        subjectPanel.add(subjectLabel, BorderLayout.NORTH);
+        subjectPanel.add(subjectField, BorderLayout.SOUTH);
         messagePanel.add(messageLabel, BorderLayout.NORTH);
         messagePanel.add(messageText, BorderLayout.CENTER);
-        imagePanel.add(choosenImageLabel, BorderLayout.CENTER);
+        messagePanel.add(imagePanel, BorderLayout.SOUTH);
         Panel fieldPanel = new Panel(new GridLayout(0, 1));
         fieldPanel.add(serverPanel);
         fieldPanel.add(fromPanel);
         fieldPanel.add(toPanel);
         fieldPanel.add(subjectPanel);
-        fieldPanel.add(imagePanel);
 
 	/* Create a panel for the buttons and add listeners to the
 	   buttons. */
@@ -72,7 +74,6 @@ public class MailClient extends Frame {
         add(fieldPanel, BorderLayout.NORTH);
         add(messagePanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
-        add(imagePanel, BorderLayout.WEST);
         pack();
         show();
     }
@@ -85,6 +86,9 @@ public class MailClient extends Frame {
     class PickImageListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             JFileChooser filePicker = new JFileChooser();
+            // We allow only jpg images to be sent.
+            filePicker.addChoosableFileFilter(new FileNameExtensionFilter("Images jpg", "jpg", "jpeg"));
+            filePicker.setAcceptAllFileFilterUsed(false);
             int option = filePicker.showOpenDialog(getOuter());
             if (option == JFileChooser.APPROVE_OPTION) {
                 File file = filePicker.getSelectedFile();
@@ -122,10 +126,12 @@ public class MailClient extends Frame {
             }
 
             /* Create the message */
-            Message mailMessage = new Message(fromField.getText(),
-                    toField.getText(),
-                    subjectField.getText(),
-                    messageText.getText());
+            Message mailMessage;
+            if (choosenImageLabel.getText().trim().equals("No attached image")) {
+                mailMessage = new Message(fromField.getText(), toField.getText(), subjectField.getText(), messageText.getText());
+            } else {
+                mailMessage = new Message(fromField.getText(), toField.getText(), subjectField.getText(), messageText.getText(), Path.of(choosenImageLabel.getText()));
+            }
 
 	    /* Check that the message is valid, i.e., sender and
 	       recipient addresses look ok. */
@@ -133,15 +139,14 @@ public class MailClient extends Frame {
                 return;
             }
 
-	    /* Create the envelope, open the connection and try to send
-	       the message. */
-            try {
-                Envelope envelope = new Envelope(mailMessage,
-                        serverField.getText());
-            } catch (UnknownHostException e) {
-                /* If there is an error, do not go further */
-                return;
-            }
+//	    /* Create the envelope, open the connection and try to send
+//	       the message. */
+//            try {
+//                Envelope envelope = new Envelope(mailMessage, serverField.getText());
+//            } catch (UnknownHostException e) {
+//                /* If there is an error, do not go further */
+//                return;
+//            }
             try {
                 Envelope envelope = new Envelope(mailMessage, serverField.getText());
                 SMTPConnection connection = new SMTPConnection(envelope);

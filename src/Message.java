@@ -1,3 +1,5 @@
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.*;
 import java.text.*;
 
@@ -10,13 +12,13 @@ import java.text.*;
  */
 public class Message {
     /* The headers and the body of the message. */
-    public String Headers;
-    public String Body;
+    public String Headers = "";
+    public String Body = "";
 
     /* Sender and recipient. With these, we don't need to extract them
        from the headers. */
-    private String From;
-    private String To;
+    private String From = "";
+    private String To = "";
 
     /* To make it look nicer */
     private static final String CRLF = "\r\n";
@@ -37,7 +39,37 @@ public class Message {
                 new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
         String dateString = format.format(new Date());
         Headers += "Date: " + dateString + CRLF;
-        Body = text;
+
+        // To enable attachments
+        Headers += "MIME-Version: 1.0" + CRLF;
+        Headers += "Content-Type: multipart/mixed; boundary=\"X-=-=-=-text boundary\"" + CRLF;
+
+        Body += "--X-=-=-=-text boundary" + CRLF;
+        Body += "Content-Type: text/plain" + CRLF + CRLF;
+
+        Body += text + CRLF + CRLF;
+        Body += "--X-=-=-=-text boundary" + CRLF;
+    }
+
+    public Message(String from, String to, String subject, String text, Path imagePath) {
+        this(from, to, subject, text);
+        try {
+            String filename = String.valueOf(imagePath.getFileName());
+            String encodedImage = Base64Encoder.encodeBase64(imagePath.toString());
+
+//            Body += "--X-=-=-=-text boundary" + CRLF;
+            Body += "Content-Type: image/jpeg; name=" + filename + CRLF;
+            Body += "Content-Transfer-Encoding: base64" + CRLF;
+            Body += "Content-Disposition: attachment; filename=" + filename + CRLF + CRLF;
+
+            Body += encodedImage + CRLF + CRLF;
+
+            Body += "--X-=-=-=-text boundary" + CRLF;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
     /* Two functions to access the sender and recipient. */
@@ -55,19 +87,19 @@ public class Message {
         int fromat = From.indexOf('@');
         int toat = To.indexOf('@');
 
-        if(fromat < 1 || (From.length() - fromat) <= 1) {
+        if (fromat < 1 || (From.length() - fromat) <= 1) {
             System.out.println("Sender address is invalid");
             return false;
         }
-        if(toat < 1 || (To.length() - toat) <= 1) {
+        if (toat < 1 || (To.length() - toat) <= 1) {
             System.out.println("Recipient address is invalid");
             return false;
         }
-        if(fromat != From.lastIndexOf('@')) {
+        if (fromat != From.lastIndexOf('@')) {
             System.out.println("Sender address is invalid");
             return false;
         }
-        if(toat != To.lastIndexOf('@')) {
+        if (toat != To.lastIndexOf('@')) {
             System.out.println("Recipient address is invalid");
             return false;
         }
@@ -80,6 +112,7 @@ public class Message {
 
         res = Headers + CRLF;
         res += Body;
+        System.out.println(res);
         return res;
     }
 }

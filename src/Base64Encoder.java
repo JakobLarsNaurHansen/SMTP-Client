@@ -6,7 +6,7 @@ import java.io.*;
 public class Base64Encoder {
     public static String encodeBase64(String path) throws IOException {
         byte[] imageBytes = Files.readAllBytes(new File(path).toPath());
-        return new String(Base64.getEncoder().encode(imageBytes), StandardCharsets.UTF_8);
+        return new String(Base64.getMimeEncoder().encode(imageBytes),StandardCharsets.UTF_8);
     }
 
     public static void main(String[] args) {
