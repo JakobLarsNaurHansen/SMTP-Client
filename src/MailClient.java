@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.net.*;
 import java.awt.*;
@@ -8,6 +9,7 @@ public class MailClient extends Frame {
     private Button btSend = new Button("Send");
     private Button btClear = new Button("Clear");
     private Button btQuit = new Button("Quit");
+    private Button btPickImage = new Button("Attach IMG");
     private Label serverLabel = new Label("Local mailserver:");
     private TextField serverField = new TextField("datacomm.bhsi.xyz", 40);
     private Label fromLabel = new Label("From:");
@@ -18,6 +20,8 @@ public class MailClient extends Frame {
     private TextField subjectField = new TextField("", 40);
     private Label messageLabel = new Label("Message:");
     private TextArea messageText = new TextArea(10, 40);
+
+    private Label choosenImageLabel = new Label("No attached image");
 
     /**
      * Create a new MailClient window with fields for entering all
@@ -33,6 +37,7 @@ public class MailClient extends Frame {
         Panel toPanel = new Panel(new BorderLayout());
         Panel subjectPanel = new Panel(new BorderLayout());
         Panel messagePanel = new Panel(new BorderLayout());
+        Panel imagePanel = new Panel(new BorderLayout());
         serverPanel.add(serverLabel, BorderLayout.WEST);
         serverPanel.add(serverField, BorderLayout.CENTER);
         fromPanel.add(fromLabel, BorderLayout.WEST);
@@ -43,19 +48,23 @@ public class MailClient extends Frame {
         subjectPanel.add(subjectField, BorderLayout.CENTER);
         messagePanel.add(messageLabel, BorderLayout.NORTH);
         messagePanel.add(messageText, BorderLayout.CENTER);
+        imagePanel.add(choosenImageLabel, BorderLayout.CENTER);
         Panel fieldPanel = new Panel(new GridLayout(0, 1));
         fieldPanel.add(serverPanel);
         fieldPanel.add(fromPanel);
         fieldPanel.add(toPanel);
         fieldPanel.add(subjectPanel);
+        fieldPanel.add(imagePanel);
 
 	/* Create a panel for the buttons and add listeners to the
 	   buttons. */
         Panel buttonPanel = new Panel(new GridLayout(1, 0));
         btSend.addActionListener(new SendListener());
+        btPickImage.addActionListener(new PickImageListener());
         btClear.addActionListener(new ClearListener());
         btQuit.addActionListener(new QuitListener());
         buttonPanel.add(btSend);
+        buttonPanel.add(btPickImage);
         buttonPanel.add(btClear);
         buttonPanel.add(btQuit);
 
@@ -63,8 +72,28 @@ public class MailClient extends Frame {
         add(fieldPanel, BorderLayout.NORTH);
         add(messagePanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
+        add(imagePanel, BorderLayout.WEST);
         pack();
         show();
+    }
+
+    public MailClient getOuter() {
+        return this;
+    }
+
+    /* Quit. */
+    class PickImageListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            JFileChooser filePicker = new JFileChooser();
+            int option = filePicker.showOpenDialog(getOuter());
+            if (option == JFileChooser.APPROVE_OPTION) {
+                File file = filePicker.getSelectedFile();
+                choosenImageLabel.setText(file.getAbsolutePath());
+            } else {
+                choosenImageLabel.setText("No attached image");
+            }
+
+        }
     }
 
     static public void main(String argv[]) {
