@@ -9,9 +9,9 @@ public class MailClient extends Frame {
     private Button btClear = new Button("Clear");
     private Button btQuit = new Button("Quit");
     private Label serverLabel = new Label("Local mailserver:");
-    private TextField serverField = new TextField("", 40);
+    private TextField serverField = new TextField("datacomm.bhsi.xyz", 40);
     private Label fromLabel = new Label("From:");
-    private TextField fromField = new TextField("", 40);
+    private TextField fromField = new TextField("info@comit.dev", 40);
     private Label toLabel = new Label("To:");
     private TextField toField = new TextField("", 40);
     private Label subjectLabel = new Label("Subject:");
@@ -83,11 +83,11 @@ public class MailClient extends Frame {
             }
 
             /* Check that we have the sender and recipient. */
-            if((fromField.getText()).equals("")) {
+            if ((fromField.getText()).equals("")) {
                 System.out.println("Need sender!");
                 return;
             }
-            if((toField.getText()).equals("")) {
+            if ((toField.getText()).equals("")) {
                 System.out.println("Need recipient!");
                 return;
             }
@@ -100,7 +100,7 @@ public class MailClient extends Frame {
 
 	    /* Check that the message is valid, i.e., sender and
 	       recipient addresses look ok. */
-            if(!mailMessage.isValid()) {
+            if (!mailMessage.isValid()) {
                 return;
             }
 
