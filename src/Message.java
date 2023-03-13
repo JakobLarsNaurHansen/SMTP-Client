@@ -2,14 +2,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 import java.text.*;
-
-/* $Id: Message.java,v 1.5 1999/07/22 12:10:57 kangasha Exp $ */
-
-/**
- * Mail message.
- *
- * @author Jussi Kangasharju
- */
 public class Message {
     /* The headers and the body of the message. */
     public String Headers = "";
@@ -20,15 +12,20 @@ public class Message {
     private String From = "";
     private String To = "";
 
+    private String User = "";
+    private String Pass = "";
+
     /* To make it look nicer */
     private static final String CRLF = "\r\n";
 
     /* Create the message object by inserting the required headers from
        RFC 822 (From, To, Date). */
-    public Message(String from, String to, String subject, String text) {
+    public Message(String from, String to, String username, String password,  String subject, String text) {
         /* Remove whitespace */
         From = from.trim();
         To = to.trim();
+        User = username.trim();
+        Pass = password.trim();
         Headers = "From: " + From + CRLF;
         Headers += "To: " + To + CRLF;
         Headers += "Subject: " + subject.trim() + CRLF;
@@ -51,8 +48,8 @@ public class Message {
         Body += "--X-=-=-=-text boundary" + CRLF;
     }
 
-    public Message(String from, String to, String subject, String text, Path imagePath) {
-        this(from, to, subject, text);
+    public Message(String from, String to, String username, String password, String subject, String text, Path imagePath) {
+        this(from, to, username, password, subject, text);
         try {
             String filename = String.valueOf(imagePath.getFileName());
             String encodedImage = Base64Encoder.encodeBase64(imagePath.toString());
@@ -79,6 +76,13 @@ public class Message {
 
     public String getTo() {
         return To;
+    }
+
+    public String getUsername(){
+        return User;
+    }
+    public String getPassword(){
+        return Pass;
     }
 
     /* Check whether the message is valid. In other words, check that

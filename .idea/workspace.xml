@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5ae24b35-b5f7-4776-99c5-e769d09b98c2" name="Changes" comment="New SMTPconnection method (Does not work yet)">
+    <list default="true" id="5ae24b35-b5f7-4776-99c5-e769d09b98c2" name="Changes" comment="Username / Password added to mailclient">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Envelope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Envelope.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MailClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MailClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SMTPConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SMTPConnection.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +102,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678718681950</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Username / Password added to mailclient">
+      <created>1678719442862</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1678719442862</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -119,6 +129,21 @@
     <MESSAGE value="Nu kan man sende en mail fra info@comit.dev til sig selv ihvertfald" />
     <MESSAGE value="jeg kan ikke huske hvad det her er" />
     <MESSAGE value="New SMTPconnection method (Does not work yet)" />
-    <option name="LAST_COMMIT_MESSAGE" value="New SMTPconnection method (Does not work yet)" />
+    <MESSAGE value="Username / Password added to mailclient" />
+    <option name="LAST_COMMIT_MESSAGE" value="Username / Password added to mailclient" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/SMTPConnection.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/SMTP_Client$MailClient.ic" NAME="MailClient Coverage Results" MODIFIED="1678722284150" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

@@ -140,9 +140,9 @@ public class MailClient extends Frame {
             /* Create the message */
             Message mailMessage;
             if (choosenImageLabel.getText().trim().equals("No attached image")) {
-                mailMessage = new Message(fromField.getText(), toField.getText(), subjectField.getText(), messageText.getText());
+                mailMessage = new Message(fromField.getText(), toField.getText(), usernameField.getText(), passwordField.getText(), subjectField.getText(), messageText.getText());
             } else {
-                mailMessage = new Message(fromField.getText(), toField.getText(), subjectField.getText(), messageText.getText(), Path.of(choosenImageLabel.getText()));
+                mailMessage = new Message(fromField.getText(), toField.getText(), usernameField.getText(), passwordField.getText(), subjectField.getText(), messageText.getText(), Path.of(choosenImageLabel.getText()));
             }
 
 	    /* Check that the message is valid, i.e., sender and
@@ -153,12 +153,12 @@ public class MailClient extends Frame {
 
 //	    /* Create the envelope, open the connection and try to send
 //	       the message. */
-//            try {
-//                Envelope envelope = new Envelope(mailMessage, serverField.getText());
-//            } catch (UnknownHostException e) {
-//                /* If there is an error, do not go further */
-//                return;
-//            }
+            try {
+                Envelope envelope = new Envelope(mailMessage, serverField.getText());
+            } catch (UnknownHostException e) {
+                /* If there is an error, do not go further */
+                return;
+            }
             try {
                 Envelope envelope = new Envelope(mailMessage, serverField.getText());
                 SMTPConnection connection = new SMTPConnection(envelope);

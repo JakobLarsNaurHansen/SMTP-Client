@@ -2,19 +2,16 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-/* $Id: Envelope.java,v 1.8 1999/09/06 16:43:20 kangasha Exp $ */
-
-/**
- * SMTP envelope for one mail message.
- *
- * @author Jussi Kangasharju
- */
 public class Envelope {
     /* SMTP-sender of the message (in this case, contents of From-header). */
     public String Sender;
 
     /* SMTP-recipient, or contents of To-header. */
     public String Recipient;
+
+    public String Username;
+
+    public String Password;
 
     /* Target MX-host */
     public String DestHost;
@@ -26,6 +23,8 @@ public class Envelope {
     /* Create the envelope. */
     public Envelope(Message message, String localServer) throws UnknownHostException {
         /* Get sender and recipient. */
+        Username = message.getUsername();
+        Password = message.getPassword();
         Sender = message.getFrom();
         Recipient = message.getTo();
 
