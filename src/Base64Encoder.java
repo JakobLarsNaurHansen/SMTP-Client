@@ -1,21 +1,26 @@
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 import java.io.*;
 
 public class Base64Encoder {
-    public static String encodeBase64(String path) throws IOException {
-        byte[] imageBytes = Files.readAllBytes(new File(path).toPath());
-        return new String(Base64.getMimeEncoder().encode(imageBytes),StandardCharsets.UTF_8);
+    public static String encode(Path path) throws IOException {
+        byte[] imageBytes = Files.readAllBytes(path);
+        return encode(imageBytes);
+    }
+
+    public static String encode(String string) {
+        return encode(string.getBytes());
+    }
+
+    private static String encode(byte[] bytes) {
+        return new String(Base64.getMimeEncoder().encode(bytes), StandardCharsets.UTF_8);
     }
 
     public static void main(String[] args) {
-        try {
-            String result = encodeBase64("../dog.jpeg");
-            System.out.println(result);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String result = encode("../dog.jpeg".getBytes());
+        System.out.println(result);
 
     }
 }

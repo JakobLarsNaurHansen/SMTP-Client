@@ -1,7 +1,6 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
-import java.net.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.nio.file.Path;
@@ -12,16 +11,21 @@ public class MailClient extends Frame {
     private Button btClear = new Button("Clear");
     private Button btQuit = new Button("Quit");
     private Button btPickImage = new Button("Attach IMG");
-    private Label serverLabel = new Label("Local mailserver:");
-    private TextField serverField = new TextField("datacomm.bhsi.xyz", 40);
+    private Label serverLabel = new Label("Mail-server:");
+    private TextField serverField = new TextField("smtp.gmail.com", 80);
+    private Label portLabel = new Label("Port:");
+    private TextField portField = new TextField("465", 80);
+    //    smtp.gmail.com:465
     private Label fromLabel = new Label("From:");
-    private TextField fromField = new TextField("info@comit.dev", 40);
+    private TextField fromField = new TextField("", 80);
     private Label toLabel = new Label("To:");
-    private TextField toField = new TextField("", 40);
+    private TextField toField = new TextField("", 80);
+    private Label passwordLabel = new Label("Password(Create APP PASSWORD, not normal password, in your Google Account or select a different mail server):");
+    private TextField passwordField = new TextField("", 80);
     private Label subjectLabel = new Label("Subject:");
-    private TextField subjectField = new TextField("", 40);
+    private TextField subjectField = new TextField("aaa", 80);
     private Label messageLabel = new Label("Message:");
-    private TextArea messageText = new TextArea(10, 40);
+    private TextArea messageText = new TextArea(10, 80);
 
     private Label choosenImageLabel = new Label("No attached image");
 
@@ -30,23 +34,30 @@ public class MailClient extends Frame {
      * the relevant information (From, To, Subject, and message).
      */
     public MailClient() {
-        super("Java Mailclient");
-	
+        super("Java Mail-client");
+        messageText.setText("bbb");
+
 	/* Create panels for holding the fields. To make it look nice,
 	   create an extra panel for holding all the child panels. */
         Panel serverPanel = new Panel(new BorderLayout());
+        Panel portPanel = new Panel(new BorderLayout());
         Panel fromPanel = new Panel(new BorderLayout());
         Panel toPanel = new Panel(new BorderLayout());
         Panel subjectPanel = new Panel(new BorderLayout());
         Panel messagePanel = new Panel(new BorderLayout());
         Panel imagePanel = new Panel(new BorderLayout());
+        Panel passwordPanel = new Panel(new BorderLayout());
         imagePanel.add(choosenImageLabel, BorderLayout.CENTER);
         serverPanel.add(serverLabel, BorderLayout.NORTH);
         serverPanel.add(serverField, BorderLayout.SOUTH);
+        portPanel.add(portLabel, BorderLayout.NORTH);
+        portPanel.add(portField, BorderLayout.SOUTH);
         fromPanel.add(fromLabel, BorderLayout.NORTH);
         fromPanel.add(fromField, BorderLayout.SOUTH);
         toPanel.add(toLabel, BorderLayout.NORTH);
         toPanel.add(toField, BorderLayout.SOUTH);
+        passwordPanel.add(passwordLabel, BorderLayout.NORTH);
+        passwordPanel.add(passwordField, BorderLayout.SOUTH);
         subjectPanel.add(subjectLabel, BorderLayout.NORTH);
         subjectPanel.add(subjectField, BorderLayout.SOUTH);
         messagePanel.add(messageLabel, BorderLayout.NORTH);
@@ -54,8 +65,10 @@ public class MailClient extends Frame {
         messagePanel.add(imagePanel, BorderLayout.SOUTH);
         Panel fieldPanel = new Panel(new GridLayout(0, 1));
         fieldPanel.add(serverPanel);
+        fieldPanel.add(portPanel);
         fieldPanel.add(fromPanel);
         fieldPanel.add(toPanel);
+        fieldPanel.add(passwordPanel);
         fieldPanel.add(subjectPanel);
 
 	/* Create a panel for the buttons and add listeners to the
@@ -100,7 +113,7 @@ public class MailClient extends Frame {
         }
     }
 
-    static public void main(String argv[]) {
+    static public void main(String[] argv) {
         new MailClient();
     }
 
@@ -133,30 +146,21 @@ public class MailClient extends Frame {
                 mailMessage = new Message(fromField.getText(), toField.getText(), subjectField.getText(), messageText.getText(), Path.of(choosenImageLabel.getText()));
             }
 
-	    /* Check that the message is valid, i.e., sender and
-	       recipient addresses look ok. */
+            /* Check that the message is valid, i.e., sender and recipient addresses look ok. */
             if (!mailMessage.isValid()) {
                 return;
             }
 
-//	    /* Create the envelope, open the connection and try to send
-//	       the message. */
-//            try {
-//                Envelope envelope = new Envelope(mailMessage, serverField.getText());
-//            } catch (UnknownHostException e) {
-//                /* If there is an error, do not go further */
-//                return;
-//            }
+            /* Create the envelope, open the connection and try to send the message. */
             try {
-                Envelope envelope = new Envelope(mailMessage, serverField.getText());
+                Envelope envelope = new Envelope(mailMessage, serverField.getText(), Integer.parseInt(portField.getText()), fromField.getText(), passwordField.getText());
                 SMTPConnection connection = new SMTPConnection(envelope);
                 connection.send(envelope);
                 connection.close();
             } catch (IOException error) {
-                System.out.println("Sending failed: " + error);
-                return;
+                throw new RuntimeException("Sending failed: " + error);
             }
-            System.out.println("Mail sent succesfully!");
+            System.out.println("Mail sent successfully!");
         }
     }
 

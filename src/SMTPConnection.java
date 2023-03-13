@@ -1,19 +1,20 @@
+import javax.net.SocketFactory;
+import javax.net.ssl.SSLSocketFactory;
 import java.net.*;
 import java.io.*;
 
 /**
  * Open an SMTP connection to a mailserver and send one mail.
- *
  */
 public class SMTPConnection {
     /* The socket to the server */
-    final private Socket connection;
+    private Socket socket;
 
     /* Streams for reading and writing the socket */
-    final private BufferedReader fromServer;
-    final private DataOutputStream toServer;
+    private BufferedReader fromServer;
+    private OutputStream toServer;
 
-    private static final int SMTP_PORT = 2526;
+
     private static final String CRLF = "\r\n";
 
     /* Are we connected? Used in close() to determine what to do. */
@@ -22,19 +23,24 @@ public class SMTPConnection {
     /* Create an SMTPConnection object. Create the socket and the
        associated streams. Initialize SMTP connection. */
     public SMTPConnection(Envelope envelope) throws IOException {
-        connection = new Socket(envelope.DestHost, SMTP_PORT);
-        fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        toServer = new DataOutputStream(connection.getOutputStream());
 
+        SocketFactory socketFactory = SSLSocketFactory.getDefault();
+        this.socket = socketFactory.createSocket(envelope.DestHost, envelope.Port);
+
+        this.fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        this.toServer = socket.getOutputStream();
+
+
+//        fromServer = new BufferedReader(new InputStreamReader(sslSocket.getInputStream()));
+//        toServer = new DataOutputStream(sslSocket.getOutputStream());
         String reply = fromServer.readLine();
         if (parseReply(reply) != 220) {
             throw new IOException("Connection refused: " + reply);
         }
-
-        String localhost = InetAddress.getLocalHost().getHostName();
-        sendCommand("HELO " + localhost, 250);
-
-        isConnected = true;
+        sendCommand("EHLO " + envelope.DestHost, 250);
+        sendAUTH("AUTH LOGIN", 334);
+        sendCommand(Base64Encoder.encode(envelope.Username), 334);
+        sendCommand(Base64Encoder.encode(envelope.Password), 235);
     }
 
     /* Send the message. Write the correct SMTP-commands in the
@@ -44,7 +50,7 @@ public class SMTPConnection {
         sendCommand("MAIL FROM: <" + envelope.Sender + ">", 250);
         sendCommand("RCPT TO: <" + envelope.Recipient + ">", 250);
         sendCommand("DATA", 354);
-        toServer.writeBytes(envelope.Message.toString() + CRLF);
+        toServer.write((envelope.Message.toString() + CRLF).getBytes());
         sendCommand(".", 250);
     }
 
@@ -55,7 +61,7 @@ public class SMTPConnection {
         isConnected = false;
         try {
             sendCommand("QUIT", 221);
-            connection.close();
+            socket.close();
         } catch (IOException e) {
             System.out.println("Unable to close connection: " + e);
             isConnected = true;
@@ -65,7 +71,20 @@ public class SMTPConnection {
     /* Send an SMTP command to the server. Check that the reply code is
        what is is supposed to be according to RFC 821. */
     private void sendCommand(String command, int rc) throws IOException {
-        toServer.writeBytes(command + CRLF);
+        toServer.write((command + CRLF).getBytes());
+        String reply = fromServer.readLine();
+        if (parseReply(reply) != rc) {
+            throw new IOException(reply);
+        }
+    }
+
+    private void sendAUTH(String command, int rc) throws IOException {
+        toServer.write((command + CRLF).getBytes());
+
+        String authHeaders = "";
+        for (int i = 0; i <= 6; i++) {
+            authHeaders += fromServer.readLine() + "\n";
+        }
         String reply = fromServer.readLine();
         if (parseReply(reply) != rc) {
             throw new IOException(reply);
@@ -81,7 +100,7 @@ public class SMTPConnection {
 
     /* Destructor. Closes the connection if something bad happens. */
     protected void finalize() throws Throwable {
-        if(isConnected) {
+        if (isConnected) {
             close();
         }
         super.finalize();
