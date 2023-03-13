@@ -25,44 +25,25 @@ public class SMTPConnection {
     /* Create an SMTPConnection object. Create the socket and the
        associated streams. Initialize SMTP connection. */
     public SMTPConnection(Envelope envelope) throws IOException {
-        /* Create a socket */
         Socket socket = new Socket("smtp.gmail.com", 587);
-
-        /* Set up input and output streams */
         fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         toServer = new DataOutputStream(socket.getOutputStream());
-
-        /* Wait for the server to send its banner message */
         String reply = fromServer.readLine();
-
         if (parseReply(reply) != 220) {
             throw new IOException("Connection refused: " + reply);
         }
-
-        /* Send the EHLO command */
         //String localhost = InetAddress.getLocalHost().getHostName();
         sendCommand("EHLO localhost", 250);
-
-
-        /* Start TLS session */
         sendCommand("STARTTLS", 250);
-
-        /* Create a socket using SSL */
         SSLSocketFactory sslSocketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
         connection = sslSocketFactory.createSocket(socket, envelope.DestHost, 587, true);
-
-        /* Set up input and output streams with TLS */
         fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         toServer = new DataOutputStream(connection.getOutputStream());
-
-
-       //SSLSocket sslSocket = (SSLSocket) sslSocketFactory.createSocket(socket, "smtp.gmail.com", 587, true);
-        //sslSocket.startHandshake();
-        /* Authenticate using username and password */
+        SSLSocket sslSocket = (SSLSocket) sslSocketFactory.createSocket(socket, "smtp.gmail.com", 587, true);
+        sslSocket.startHandshake();
         sendCommand("AUTH LOGIN", 334);
         sendCommand(Base64.getEncoder().encodeToString(envelope.Username.getBytes()), 334);
         sendCommand(Base64.getEncoder().encodeToString(envelope.Password.getBytes()), 334);
-
         isConnected = true;
     }
 

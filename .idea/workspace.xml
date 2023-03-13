@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5ae24b35-b5f7-4776-99c5-e769d09b98c2" name="Changes" comment="alot of stuff">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MailClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MailClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SMTPConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SMTPConnection.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,8 +142,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/SMTPConnection.java</url>
-          <line>59</line>
-          <option name="timeStamp" value="16" />
+          <line>42</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
