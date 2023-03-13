@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5ae24b35-b5f7-4776-99c5-e769d09b98c2" name="Changes" comment="jeg kan ikke huske hvad det her er">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SMTPConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SMTPConnection.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,12 +29,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="MailClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MailClient" />
@@ -105,5 +106,8 @@
     <MESSAGE value="Nu kan man sende en mail fra info@comit.dev til sig selv ihvertfald" />
     <MESSAGE value="jeg kan ikke huske hvad det her er" />
     <option name="LAST_COMMIT_MESSAGE" value="jeg kan ikke huske hvad det her er" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/SMTP_Client$MailClient.ic" NAME="MailClient Coverage Results" MODIFIED="1678722284150" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
