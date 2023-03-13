@@ -1,6 +1,5 @@
 import java.net.*;
 import java.io.*;
-import java.util.*;
 
 /**
  * Open an SMTP connection to a mailserver and send one mail.
@@ -8,11 +7,11 @@ import java.util.*;
  */
 public class SMTPConnection {
     /* The socket to the server */
-    private Socket connection;
+    final private Socket connection;
 
     /* Streams for reading and writing the socket */
-    private BufferedReader fromServer;
-    private DataOutputStream toServer;
+    final private BufferedReader fromServer;
+    final private DataOutputStream toServer;
 
     private static final int SMTP_PORT = 25;
     private static final String CRLF = "\r\n";

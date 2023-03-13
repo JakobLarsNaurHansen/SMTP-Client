@@ -12,21 +12,27 @@ import java.text.*;
  */
 public class Message {
     /* The headers and the body of the message. */
-    public String Headers = "";
+    public String Headers;
     public String Body = "";
 
     /* Sender and recipient. With these, we don't need to extract them
        from the headers. */
-    private String From = "";
-    private String To = "";
+    private String From;
+    private String To;
 
     /* To make it look nicer */
     private static final String CRLF = "\r\n";
+
+    private static final String Boundary = "X-=-=-=-boundary";
 
     /* Create the message object by inserting the required headers from
        RFC 822 (From, To, Date). */
     public Message(String from, String to, String subject, String text) {
         /* Remove whitespace */
+        this(from, to, subject, text, null);
+    }
+
+    public Message(String from, String to, String subject, String text, Path imagePath) {
         From = from.trim();
         To = to.trim();
         Headers = "From: " + From + CRLF;
@@ -42,34 +48,30 @@ public class Message {
 
         // To enable attachments
         Headers += "MIME-Version: 1.0" + CRLF;
-        Headers += "Content-Type: multipart/mixed; boundary=\"X-=-=-=-text boundary\"" + CRLF;
+        Headers += "Content-Type: multipart/mixed; boundary=\"" + Boundary + "\"" + CRLF;
 
-        Body += "--X-=-=-=-text boundary" + CRLF;
-        Body += "Content-Type: text/plain" + CRLF + CRLF;
+        Body += "--X-=-=-=-boundary" + CRLF;
+        Body += "Content-Type: text/plain; charset=\"UTF-8\"" + CRLF + CRLF;
+//        Body += "Content-Type: text/plain" + CRLF + CRLF;
 
         Body += text + CRLF + CRLF;
-        Body += "--X-=-=-=-text boundary" + CRLF;
-    }
+        if (imagePath != null) {
+            try {
+                String filename = String.valueOf(imagePath.getFileName());
+                String encodedImage = Base64Encoder.encodeBase64(imagePath.toString());
 
-    public Message(String from, String to, String subject, String text, Path imagePath) {
-        this(from, to, subject, text);
-        try {
-            String filename = String.valueOf(imagePath.getFileName());
-            String encodedImage = Base64Encoder.encodeBase64(imagePath.toString());
+                Body += Boundary + CRLF;
+                Body += "Content-Type: image/jpeg; name=" + filename + CRLF;
+                Body += "Content-Transfer-Encoding: base64" + CRLF;
+                Body += "Content-Disposition: attachment; filename=" + filename + CRLF + CRLF;
+                Body += encodedImage + CRLF + CRLF;
 
-//            Body += "--X-=-=-=-text boundary" + CRLF;
-            Body += "Content-Type: image/jpeg; name=" + filename + CRLF;
-            Body += "Content-Transfer-Encoding: base64" + CRLF;
-            Body += "Content-Disposition: attachment; filename=" + filename + CRLF + CRLF;
-
-            Body += encodedImage + CRLF + CRLF;
-
-            Body += "--X-=-=-=-text boundary" + CRLF;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
-
-
+        // -- indicates last boundary
+        Body += Boundary + "--" + CRLF;
     }
 
     /* Two functions to access the sender and recipient. */
@@ -114,5 +116,10 @@ public class Message {
         res += Body;
         System.out.println(res);
         return res;
+    }
+
+    public static void main(String[] args) {
+        var m = new Message("hank@example.com", "reciever@other.place", "This is the subject", "this is the text", Path.of("../dog.jpeg"));
+        System.out.println(m);
     }
 }
