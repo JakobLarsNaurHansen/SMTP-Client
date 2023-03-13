@@ -17,13 +17,13 @@ public class MailClient extends Frame {
     private Label fromLabel = new Label("From:");
     private TextField fromField = new TextField("info@comit.dev", 40);
     private Label toLabel = new Label("To:");
-    private TextField toField = new TextField("", 40);
+    private TextField toField = new TextField("jfeldthus@gmail.com", 40);
     private Label usernameLabel = new Label("Username:");
-    private TextField usernameField = new TextField("", 40);
+    private TextField usernameField = new TextField("jakoblnhansen", 40);
     private Label passwordLabel = new Label("Password:");
-    private TextField passwordField = new TextField("", 40);
+    private TextField passwordField = new TextField("Jako2213yfm85bch", 40);
     private Label subjectLabel = new Label("Subject:");
-    private TextField subjectField = new TextField("", 40);
+    private TextField subjectField = new TextField("Hej", 40);
     private Label messageLabel = new Label("Message:");
     private TextArea messageText = new TextArea(10, 40);
 

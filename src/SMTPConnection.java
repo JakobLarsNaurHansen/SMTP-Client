@@ -56,8 +56,8 @@ public class SMTPConnection {
         toServer = new DataOutputStream(connection.getOutputStream());
 
 
-        SSLSocket sslSocket = (SSLSocket) sslSocketFactory.createSocket(socket, "smtp.gmail.com", 587, true);
-        sslSocket.startHandshake();
+       //SSLSocket sslSocket = (SSLSocket) sslSocketFactory.createSocket(socket, "smtp.gmail.com", 587, true);
+        //sslSocket.startHandshake();
         /* Authenticate using username and password */
         sendCommand("AUTH LOGIN", 334);
         sendCommand(Base64.getEncoder().encodeToString(envelope.Username.getBytes()), 334);

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5ae24b35-b5f7-4776-99c5-e769d09b98c2" name="Changes" comment="Username / Password added to mailclient">
+    <list default="true" id="5ae24b35-b5f7-4776-99c5-e769d09b98c2" name="Changes" comment="alot of stuff">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Envelope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Envelope.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MailClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MailClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SMTPConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SMTPConnection.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +106,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678719442862</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="alot of stuff">
+      <created>1678731347191</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1678731347191</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -130,15 +134,16 @@
     <MESSAGE value="jeg kan ikke huske hvad det her er" />
     <MESSAGE value="New SMTPconnection method (Does not work yet)" />
     <MESSAGE value="Username / Password added to mailclient" />
-    <option name="LAST_COMMIT_MESSAGE" value="Username / Password added to mailclient" />
+    <MESSAGE value="alot of stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="alot of stuff" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/SMTPConnection.java</url>
-          <line>58</line>
-          <option name="timeStamp" value="14" />
+          <line>59</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
