@@ -1,4 +1,3 @@
-import java.io.*;
 import java.net.*;
 import java.util.*;
 
@@ -15,18 +14,21 @@ public class Envelope {
 
     /* Target MX-host */
     public String DestHost;
+    public int Port;
     public InetAddress DestAddr;
 
     /* The actual message */
     public Message Message;
 
     /* Create the envelope. */
-    public Envelope(Message message, String localServer) throws UnknownHostException {
+    public Envelope(Message message, String localServer, int port, String username, String password) throws UnknownHostException {
         /* Get sender and recipient. */
-        Username = message.getUsername();
-        Password = message.getPassword();
+        Username = username;
+
+        Password = password;
         Sender = message.getFrom();
         Recipient = message.getTo();
+
 
 	/* Get message. We must escape the message to make sure that
 	   there are no single periods on a line. This would mess up
@@ -35,31 +37,29 @@ public class Envelope {
 
         /* Take the name of the local mailserver and map it into an InetAddress */
         DestHost = localServer;
+        this.Port = port;
         try {
             DestAddr = InetAddress.getByName(DestHost);
         } catch (UnknownHostException e) {
             System.out.println("Unknown host: " + DestHost);
-            System.out.println(e);
             throw e;
         }
-        return;
     }
 
-    /* Escape the message by doubling all periods at the beginning of
-       a line. */
+    /* Escape the message by doubling all periods at the beginning of a line. */
     private Message escapeMessage(Message message) {
-        String escapedBody = "";
+        StringBuilder escapedBody = new StringBuilder();
         String token;
         StringTokenizer parser = new StringTokenizer(message.Body, "\n", true);
 
-        while(parser.hasMoreTokens()) {
+        while (parser.hasMoreTokens()) {
             token = parser.nextToken();
-            if(token.startsWith(".")) {
+            if (token.startsWith(".")) {
                 token = "." + token;
             }
-            escapedBody += token;
+            escapedBody.append(token);
         }
-        message.Body = escapedBody;
+        message.Body = escapedBody.toString();
         return message;
     }
 
