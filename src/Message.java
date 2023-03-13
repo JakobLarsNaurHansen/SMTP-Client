@@ -23,7 +23,9 @@ public class Message {
     /* To make it look nicer */
     private static final String CRLF = "\r\n";
 
-    private static final String Boundary = "X-=-=-=-boundary";
+    private static final String BoundaryDelimiter = "--";
+
+    private static final String Boundary = "XXXmy-boundaryXXX";
 
     /* Create the message object by inserting the required headers from
        RFC 822 (From, To, Date). */
@@ -50,7 +52,7 @@ public class Message {
         Headers += "MIME-Version: 1.0" + CRLF;
         Headers += "Content-Type: multipart/mixed; boundary=\"" + Boundary + "\"" + CRLF;
 
-        Body += "--X-=-=-=-boundary" + CRLF;
+        Body += BoundaryDelimiter + Boundary + CRLF;
         Body += "Content-Type: text/plain; charset=\"UTF-8\"" + CRLF + CRLF;
 //        Body += "Content-Type: text/plain" + CRLF + CRLF;
 
@@ -60,7 +62,7 @@ public class Message {
                 String filename = String.valueOf(imagePath.getFileName());
                 String encodedImage = Base64Encoder.encodeBase64(imagePath.toString());
 
-                Body += Boundary + CRLF;
+                Body += BoundaryDelimiter + Boundary + CRLF;
                 Body += "Content-Type: image/jpeg; name=" + filename + CRLF;
                 Body += "Content-Transfer-Encoding: base64" + CRLF;
                 Body += "Content-Disposition: attachment; filename=" + filename + CRLF + CRLF;
@@ -71,7 +73,7 @@ public class Message {
             }
         }
         // -- indicates last boundary
-        Body += Boundary + "--" + CRLF;
+        Body += BoundaryDelimiter + Boundary + BoundaryDelimiter + CRLF;
     }
 
     /* Two functions to access the sender and recipient. */
