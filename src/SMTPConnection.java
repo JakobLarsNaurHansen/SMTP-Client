@@ -1,3 +1,4 @@
+import javax.net.ssl.SSLSocketFactory;
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -23,17 +24,36 @@ public class SMTPConnection {
     /* Create an SMTPConnection object. Create the socket and the
        associated streams. Initialize SMTP connection. */
     public SMTPConnection(Envelope envelope) throws IOException {
-        connection = new Socket(envelope.DestHost, SMTP_PORT);
+        /* Create a socket using SSL */
+        SSLSocketFactory sslSocketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+        connection = sslSocketFactory.createSocket(envelope.DestHost, 465);
+
+        /* Set up input and output streams */
         fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         toServer = new DataOutputStream(connection.getOutputStream());
 
+        /* Wait for the server to send its banner message */
         String reply = fromServer.readLine();
         if (parseReply(reply) != 220) {
             throw new IOException("Connection refused: " + reply);
         }
 
+        /* Send the HELO command */
         String localhost = InetAddress.getLocalHost().getHostName();
-        sendCommand("HELO " + localhost, 250);
+        sendCommand("EHLO " + localhost, 250);
+
+        /* Start TLS session */
+        sendCommand("STARTTLS", 220);
+
+        /* Set up input and output streams with TLS */
+        connection = sslSocketFactory.createSocket(connection, envelope.DestHost, 465, true);
+        fromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        toServer = new DataOutputStream(connection.getOutputStream());
+
+        /* Authenticate using username and password */
+        sendCommand("AUTH LOGIN", 334);
+        sendCommand(Base64.getEncoder().encodeToString(envelope.Username.getBytes()), 334);
+        sendCommand(Base64.getEncoder().encodeToString(envelope.Password.getBytes()), 235);
 
         isConnected = true;
     }
