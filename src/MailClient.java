@@ -18,6 +18,10 @@ public class MailClient extends Frame {
     private TextField fromField = new TextField("info@comit.dev", 40);
     private Label toLabel = new Label("To:");
     private TextField toField = new TextField("", 40);
+    private Label usernameLabel = new Label("Username:");
+    private TextField usernameField = new TextField("", 40);
+    private Label passwordLabel = new Label("Password:");
+    private TextField passwordField = new TextField("", 40);
     private Label subjectLabel = new Label("Subject:");
     private TextField subjectField = new TextField("", 40);
     private Label messageLabel = new Label("Message:");
@@ -40,6 +44,8 @@ public class MailClient extends Frame {
         Panel subjectPanel = new Panel(new BorderLayout());
         Panel messagePanel = new Panel(new BorderLayout());
         Panel imagePanel = new Panel(new BorderLayout());
+        Panel usernamePanel = new Panel(new BorderLayout());
+        Panel passwordPanel = new Panel(new BorderLayout());
         imagePanel.add(choosenImageLabel, BorderLayout.CENTER);
         serverPanel.add(serverLabel, BorderLayout.NORTH);
         serverPanel.add(serverField, BorderLayout.SOUTH);
@@ -47,6 +53,10 @@ public class MailClient extends Frame {
         fromPanel.add(fromField, BorderLayout.SOUTH);
         toPanel.add(toLabel, BorderLayout.NORTH);
         toPanel.add(toField, BorderLayout.SOUTH);
+        usernamePanel.add(usernameLabel, BorderLayout.NORTH);
+        usernamePanel.add(usernameField, BorderLayout.SOUTH);
+        passwordPanel.add(passwordLabel, BorderLayout.NORTH);
+        passwordPanel.add(passwordField, BorderLayout.SOUTH);
         subjectPanel.add(subjectLabel, BorderLayout.NORTH);
         subjectPanel.add(subjectField, BorderLayout.SOUTH);
         messagePanel.add(messageLabel, BorderLayout.NORTH);
@@ -56,6 +66,8 @@ public class MailClient extends Frame {
         fieldPanel.add(serverPanel);
         fieldPanel.add(fromPanel);
         fieldPanel.add(toPanel);
+        fieldPanel.add(usernamePanel);
+        fieldPanel.add(passwordPanel);
         fieldPanel.add(subjectPanel);
 
 	/* Create a panel for the buttons and add listeners to the

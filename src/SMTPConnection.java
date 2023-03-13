@@ -52,8 +52,8 @@ public class SMTPConnection {
 
         /* Authenticate using username and password */
         sendCommand("AUTH LOGIN", 334);
-        sendCommand(Base64.getEncoder().encodeToString(envelope.Username.getBytes()), 334);
-        sendCommand(Base64.getEncoder().encodeToString(envelope.Password.getBytes()), 235);
+        //sendCommand(Base64.getEncoder().encodeToString(envelope.Username.getBytes()), 334);
+        //sendCommand(Base64.getEncoder().encodeToString(envelope.Password.getBytes()), 235);
 
         isConnected = true;
     }
