@@ -13,7 +13,7 @@ public class SMTPConnection {
     final private BufferedReader fromServer;
     final private DataOutputStream toServer;
 
-    private static final int SMTP_PORT = 25;
+    private static final int SMTP_PORT = 2526;
     private static final String CRLF = "\r\n";
 
     /* Are we connected? Used in close() to determine what to do. */
