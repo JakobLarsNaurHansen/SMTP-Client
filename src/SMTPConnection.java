@@ -23,24 +23,35 @@ public class SMTPConnection {
     /* Create an SMTPConnection object. Create the socket and the
        associated streams. Initialize SMTP connection. */
     public SMTPConnection(Envelope envelope) throws IOException {
+        if (envelope.Port == 25){
+            this.socket = new Socket(envelope.DestHost, envelope.Port);
+            this.fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.toServer = new DataOutputStream(socket.getOutputStream());
 
-        SocketFactory socketFactory = SSLSocketFactory.getDefault();
-        this.socket = socketFactory.createSocket(envelope.DestHost, envelope.Port);
+            String reply = fromServer.readLine();
+            if (parseReply(reply) != 220) {
+                throw new IOException("Connection refused: " + reply);
+            }
 
-        this.fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        this.toServer = socket.getOutputStream();
+            String localhost = InetAddress.getLocalHost().getHostName();
+            sendCommand("HELO " + localhost, 250);
 
+            isConnected = true;
+        }else {
+            SocketFactory socketFactory = SSLSocketFactory.getDefault();
+            this.socket = socketFactory.createSocket(envelope.DestHost, envelope.Port);
 
-        //fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        //toServer = new DataOutputStream(socket.getOutputStream());
-        String reply = fromServer.readLine();
-        if (parseReply(reply) != 220) {
-            throw new IOException("Connection refused: " + reply);
+            this.fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.toServer = socket.getOutputStream();
+            String reply = fromServer.readLine();
+            if (parseReply(reply) != 220) {
+                throw new IOException("Connection refused: " + reply);
+            }
+            sendCommand("EHLO localhost"/* envelope.DestHost*/, 250);
+            sendAUTH("AUTH LOGIN", 334);
+            sendCommand(Base64Encoder.encode(envelope.Username), 334);
+            sendCommand(Base64Encoder.encode(envelope.Password), 235);
         }
-        sendCommand("EHLO localhost"/* envelope.DestHost*/, 250);
-        sendAUTH("AUTH LOGIN", 334);
-        sendCommand(Base64Encoder.encode(envelope.Username), 334);
-        sendCommand(Base64Encoder.encode(envelope.Password), 235);
     }
 
     /* Send the message. Write the correct SMTP-commands in the
