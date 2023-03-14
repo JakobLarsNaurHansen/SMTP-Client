@@ -17,11 +17,11 @@ public class MailClient extends Frame {
     private TextField portField = new TextField("465", 80);
     //    smtp.gmail.com:465
     private Label fromLabel = new Label("From:");
-    private TextField fromField = new TextField("", 80);
+    private TextField fromField = new TextField("jakoblnhansen@gmail.com", 80);
     private Label toLabel = new Label("To:");
-    private TextField toField = new TextField("", 80);
+    private TextField toField = new TextField("jakoblnhansen@gmail.com", 80);
     private Label passwordLabel = new Label("Password(Create APP PASSWORD, not normal password, in your Google Account or select a different mail server):");
-    private TextField passwordField = new TextField("", 80);
+    private TextField passwordField = new TextField("upasfghprncqoghr", 80);
     private Label subjectLabel = new Label("Subject:");
     private TextField subjectField = new TextField("aaa", 80);
     private Label messageLabel = new Label("Message:");

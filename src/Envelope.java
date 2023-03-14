@@ -23,7 +23,9 @@ public class Envelope {
     /* Create the envelope. */
     public Envelope(Message message, String localServer, int port, String username, String password) throws UnknownHostException {
         /* Get sender and recipient. */
-        Username = username;
+        String email = username;
+        Username = email.substring(0, email .indexOf("@"));
+
 
         Password = password;
         Sender = message.getFrom();

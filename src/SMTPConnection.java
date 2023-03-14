@@ -31,13 +31,13 @@ public class SMTPConnection {
         this.toServer = socket.getOutputStream();
 
 
-//        fromServer = new BufferedReader(new InputStreamReader(sslSocket.getInputStream()));
-//        toServer = new DataOutputStream(sslSocket.getOutputStream());
+        //fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        //toServer = new DataOutputStream(socket.getOutputStream());
         String reply = fromServer.readLine();
         if (parseReply(reply) != 220) {
             throw new IOException("Connection refused: " + reply);
         }
-        sendCommand("EHLO " + envelope.DestHost, 250);
+        sendCommand("EHLO localhost"/* envelope.DestHost*/, 250);
         sendAUTH("AUTH LOGIN", 334);
         sendCommand(Base64Encoder.encode(envelope.Username), 334);
         sendCommand(Base64Encoder.encode(envelope.Password), 235);
