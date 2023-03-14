@@ -12,20 +12,20 @@ public class MailClient extends Frame {
     private Button btQuit = new Button("Quit");
     private Button btPickImage = new Button("Attach IMG");
     private Label serverLabel = new Label("Mail-server:");
-    private TextField serverField = new TextField("smtp.gmail.com", 80);
+    private TextField serverField = new TextField("smtp.gmail.com", 90);
     private Label portLabel = new Label("Port:");
-    private TextField portField = new TextField("465", 80);
+    private TextField portField = new TextField("465", 90);
     //    smtp.gmail.com:465
     private Label fromLabel = new Label("From:");
-    private TextField fromField = new TextField("", 80);
+    private TextField fromField = new TextField("", 90);
     private Label toLabel = new Label("To:");
-    private TextField toField = new TextField("", 80);
+    private TextField toField = new TextField("", 90);
     private Label passwordLabel = new Label("Password(Create APP PASSWORD, not normal password, in your Google Account or select a different mail server):");
-    private TextField passwordField = new TextField("", 80);
+    private TextField passwordField = new TextField("", 90);
     private Label subjectLabel = new Label("Subject:");
-    private TextField subjectField = new TextField("default subject", 80);
+    private TextField subjectField = new TextField("default subject", 90);
     private Label messageLabel = new Label("Message:");
-    private TextArea messageText = new TextArea(10, 80);
+    private TextArea messageText = new TextArea(16, 90);
 
     private Label choosenImageLabel = new Label("No attached image");
 
@@ -36,7 +36,8 @@ public class MailClient extends Frame {
     public MailClient() {
         super("Java Mail-client");
         messageText.setText("This is some content. " +
-                "Attach an image if you want to.\n" +
+                "Attach an image if you want to. " +
+                "Port 465 for TLS, port 25 for no TLS\n" +
                 "\n" +
                 "If you want to send email through smtp.gmail.com,\n" +
                 "you need to create an APP password.\n" +
