@@ -35,8 +35,8 @@ public class MailClient extends Frame {
      */
     public MailClient() {
         super("Java Mail-client");
-        messageText.setText("This is some content. " +
-                "Attach an image if you want to. " +
+        messageText.setText("This is some content.\n" +
+                "Attach an image if you want to.\n" +
                 "Port 465 for TLS, port 25 for no TLS\n" +
                 "\n" +
                 "If you want to send email through smtp.gmail.com,\n" +
