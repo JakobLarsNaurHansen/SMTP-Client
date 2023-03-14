@@ -23,7 +23,7 @@ public class MailClient extends Frame {
     private Label passwordLabel = new Label("Password(Create APP PASSWORD, not normal password, in your Google Account or select a different mail server):");
     private TextField passwordField = new TextField("", 80);
     private Label subjectLabel = new Label("Subject:");
-    private TextField subjectField = new TextField("aaa", 80);
+    private TextField subjectField = new TextField("default subject", 80);
     private Label messageLabel = new Label("Message:");
     private TextArea messageText = new TextArea(10, 80);
 
@@ -35,7 +35,15 @@ public class MailClient extends Frame {
      */
     public MailClient() {
         super("Java Mail-client");
-        messageText.setText("bbb");
+        messageText.setText("This is some content. " +
+                "Attach an image if you want to.\n" +
+                "\n" +
+                "If you want to send email through smtp.gmail.com,\n" +
+                "you need to create an APP password.\n" +
+                "Your normal Gmail password won't work.\n" +
+                "\n" +
+                "You can also send an email with\nmail server datacomm.bhsi.xyz, on port 25.\n" +
+                "Use from address info@comit.dev.\n");
 
 	/* Create panels for holding the fields. To make it look nice,
 	   create an extra panel for holding all the child panels. */
